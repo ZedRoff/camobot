@@ -11,7 +11,7 @@ exports.command = (bot, message,args) => {
     .addFields({
         name: "Commandes générales", value: funcs.encadrer(general.join(" | "))
     })
-    .setFooter(`Version : ${config.version}`)
+    .setFooter({text: `Version : ${config.version}`, iconURL: bot.user.displayAvatarURL()})
 
     message.channel.send({embeds: [embed]})
     }
