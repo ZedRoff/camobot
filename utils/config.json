@@ -2,6 +2,6 @@
     "name": "CamoBot",
     "description": "A simple bot developed for Milleka__'s Discord Guild, open sourced feel free to get inspired by it",
     "version": "1.0.0",
-    "prefix": "m!",
+    "prefix": "²",
     "token": "nothing there ofc"
 }
