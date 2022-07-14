@@ -25,6 +25,19 @@ let prefix = config.prefix
 
 bot.once("ready", () => {
     console.log("Bot prêt !")
+
+    let status = ["En développement", "Sert la déesse hylia", "Version 1.0.0", "²help"]
+    let x = 0;
+
+    // TODO : I think the bot goes to void after ²help and after 10 sec restarts to 0, have to verify that.
+    setInterval(() => {
+        if(x !== status.length) {
+            bot.user.setActivity(status[x])
+            x++
+        }else {
+            x = 0
+        }
+    }, 5000)
     bot.user.setActivity("En développement", {type: "WATCHING"})
     bot.user.setStatus("dnd")
 })
@@ -44,8 +57,9 @@ bot.on("messageCreate", message => {
         let embed = new Discord.MessageEmbed()
         .setColor("#00FFFF")
         .setTitle(`Page d'aide de la commande ${args[0]}`)
-        .setDescription(`Description : ${bot.commands[args[0]][1]}`)
-        
+        .setDescription("Merci de ne pas inclure les `[] et ()` dans la commande.\nLégende : `[]` = requis, `()` = optionnel.")
+        .addFields({name: "Description :", value: bot.commands[args[0]][1]})
+     
         message.channel.send({embeds: [embed]})
     }else {
         let embed = new Discord.MessageEmbed()
@@ -58,7 +72,6 @@ bot.on("messageCreate", message => {
    }
     if(bot.commands[name_cmd] !== undefined) {
         try {
-            console.log("capted")
             bot.commands[name_cmd][0](bot, message, args)
         }catch(e) {
             message.channel.send("Erreur, merci de contacter le créateur du bot par mp : `</ZedRoff>#6268`")
