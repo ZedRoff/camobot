@@ -23,3 +23,10 @@ exports.wrongEntry = (Discord, message, msg) => {
 
     message.channel.send({ embeds: [embed]})
 }
+exports.missingPerms = (Discord, message, perm) => {
+    let embed = new Discord.MessageEmbed()
+    .setColor("#FF0000")
+    .setDescription(`Hep hep, tu n'as pas la permission ${perm}, tu ne peux pas executer cette commande`)
+
+    message.channel.send({ embeds: [embed] })
+}
