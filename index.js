@@ -4,6 +4,24 @@ const bot = new Discord.Client({ intents: allIntents})
 const config = require("./utils/config.json")
 const fs = require("fs")
 const funcs = require("./utils/errors.js")
+const mongoose = require("mongoose")
+const model_prefix = require("./models/prefix")
+
+
+let uri = config.mongo;
+
+mongoose
+  .connect(uri, {
+    useNewUrlParser: true,
+  
+    useUnifiedTopology: true
+  })
+  .then((res) => {
+    console.log("DB Connected!");
+  })
+  .catch((err) => {
+    console.log(Error, err.message);
+  });
 
 bot.commands = {}
 
@@ -21,7 +39,7 @@ fs.readdir('./commands/', (err, files) => {
     })
 })
 
-let prefix = config.prefix
+
 
 bot.once("ready", () => {
     console.log("Bot prêt !")
@@ -46,8 +64,30 @@ bot.on("messageCreate", message => {
     if(message.author.bot) return;
         let args_strip = message.content.split(" ")
         let cmd = args_strip[0]
+
+        let prefix = ""
+        model_prefix.findOne({guild_id: message.guild.id}, (err, doc) => {
+            if(!doc) {
+                const new_prefix = new model_prefix({
+                    guild_id: message.guild.id,
+                    prefix: "²"
+                })
+                new_prefix.save()
+                prefix = "²"
+            } else {
+                prefix = doc.prefix
+                
+            }
+             
         let name_cmd = cmd.split(prefix)[1]
         let args = args_strip.slice(1)
+
+
+
+      
+
+
+
 
     if(cmd == prefix + "info") {
    
@@ -78,5 +118,7 @@ bot.on("messageCreate", message => {
             console.log(e)
         } 
     }
+        })
+       
 })
 bot.login(config.token)
