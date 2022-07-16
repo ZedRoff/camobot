@@ -1,11 +1,12 @@
 const Discord = require("discord.js")
 const allIntents = new Discord.Intents(32767)
-const bot = new Discord.Client({ intents: allIntents})
+const bot = new Discord.Client({ intents: allIntents, partials: ['CHANNEL']})
 const config = require("./utils/config.json")
 const fs = require("fs")
 const funcs = require("./utils/errors.js")
 const mongoose = require("mongoose")
 const model_prefix = require("./models/prefix")
+const embed_f = require("./utils/embed")
 let cooldown = new Set()
 
 let uri = config.mongo;
@@ -47,21 +48,22 @@ bot.once("ready", () => {
     let status = ["En développement", "Sert la déesse hylia", "Version 1.0.0", "²help"]
     let x = 0;
 
-    // TODO : I think the bot goes to void after ²help and after 10 sec restarts to 0, have to verify that.
     setInterval(() => {
-        if(x !== status.length) {
+        if(x !== status.length-1) {
             bot.user.setActivity(status[x])
             x++
         }else {
+            bot.user.setActivity(status[x])
             x = 0
         }
     }, 5000)
-    bot.user.setActivity("En développement", {type: "WATCHING"})
+    
     bot.user.setStatus("dnd")
 })
 
 bot.on("messageCreate", message => {
     if(message.author.bot) return;
+    if(message.channel.type == "DM") return embed_f.embedMaker(Discord, message, '#00FFFF', "Merci d'utiliser les services que ce bot propose en MP")
         let args_strip = message.content.split(" ")
         let cmd = args_strip[0]
 
@@ -118,7 +120,7 @@ bot.on("messageCreate", message => {
                 bot.commands[name_cmd][0](bot, message, args)
                if(message.author.id == '327074335238127616') return;
                 cooldown.add(message.author.id)
-                bot.timeout = setTimeout(() => {
+              setTimeout(() => {
                     cooldown.delete(message.author.id)
                 }, 3000)
             }
