@@ -1,11 +1,13 @@
 const Discord = require("discord.js")
 const funcs = require("../utils/md.js")
 const config = require("../utils/config.json")
+const embed_f = require("../utils/embed")
 exports.command = (bot, message,args) => {
 
-    let general = ["help", "botinfo", "macro"]
+    let general = ["help", "botinfo", "macro", "avatar"]
     let fun = ["roll", "lovecalc"]
     let mods = ["eval", "macro"]
+
     let embed = new Discord.MessageEmbed()
     .setColor("#7F56FF")
     .setTitle("Commande d'aide du bot")
@@ -18,11 +20,21 @@ exports.command = (bot, message,args) => {
     )
     .setFooter({text: `Version : ${config.version}`, iconURL: bot.user.displayAvatarURL()})
 
-    message.channel.send({embeds: [embed]})
+   
+    if(!args[0]) {
+        message.channel.send({embeds: [embed]})
+    }else if(args[0] == "mp") {
+        message.author.send({ embeds: [embed] }).then(msg => {
+            return embed_f.embedMaker(Discord, message, '#00FFFF', "Je vous ai envoyer la page d'aide en MP")
+        }).catch(e => {
+            return message.channel.send(funcs.encadrer("Une erreur est survenue, merci de contacter le créateur du bot : </ZedRoff>#6268"))
+        })
+    }
+    
     }
 exports.infos = {
     name: "help",
     description:"Page d'aide des commandes du bot",
     aliases: ["h"],
-    usage: "[prefix]help"
+    usage: "[prefix]help (choix : mp)"
 }
