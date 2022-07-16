@@ -9,6 +9,7 @@ let mode = args[0]
 if(!choices.includes(mode)) return embed_f.embedMaker(Discord, message, '#FF0000', "Le mode n'est pas le bon, (normal et embed supportés uniquement)")
 
 if(!args[1]) return funcs.errorArgs(Discord, message, "[prefix]say [mode] [message]")
+if(args.slice(1).includes("@everyone")) return embed_f.embedMaker(Discord, message, '#FF0000', "Bien essayé mais impossible de faire cela")
 let msg = args.slice(1).join(" ")
 switch(mode) {
     case "normal": {
