@@ -109,16 +109,18 @@ bot.on("messageCreate", message => {
   
    }
     if(bot.commands[name_cmd] !== undefined) {
-        if(message.author.id == '327074335238127616') return;
+      
         try {
             if(cooldown.has(message.author.id)) {
-                return message.reply("Vous devez attendre 5 secondes avant de pouvoir lancer une commande a nouveau.")
+
+               return message.reply(`Hep hep, du calme avec le spam des commandes -)`)
             }else {
                 bot.commands[name_cmd][0](bot, message, args)
+               if(message.author.id == '327074335238127616') return;
                 cooldown.add(message.author.id)
-                setTimeout(() => {
+                bot.timeout = setTimeout(() => {
                     cooldown.delete(message.author.id)
-                }, 5000)
+                }, 3000)
             }
            
             
