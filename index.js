@@ -6,7 +6,7 @@ const fs = require("fs")
 const funcs = require("./utils/errors.js")
 const mongoose = require("mongoose")
 const model_prefix = require("./models/prefix")
-
+let cooldown = new Set()
 
 let uri = config.mongo;
 
@@ -30,7 +30,7 @@ fs.readdir('./commands/', (err, files) => {
         const f = require(`./commands/${file}`);
         let cmd = file.split(".")[0]
         try {
-            bot.commands[cmd] = [f.command, f.infos.description, f.infos.aliases]
+            bot.commands[cmd] = [f.command, f.infos.description, f.infos.usage, f.infos.aliases]
         }catch(e) {
             console.log("erreur")
         }
@@ -84,9 +84,6 @@ bot.on("messageCreate", message => {
 
 
 
-      
-
-
 
 
     if(cmd == prefix + "info") {
@@ -98,7 +95,8 @@ bot.on("messageCreate", message => {
         .setColor("#00FFFF")
         .setTitle(`Page d'aide de la commande ${args[0]}`)
         .setDescription("Merci de ne pas inclure les `[] et ()` dans la commande.\nLégende : `[]` = requis, `()` = optionnel.")
-        .addFields({name: "Description :", value: bot.commands[args[0]][1]})
+        .addFields({name: "Description :", value: bot.commands[args[0]][1]}, {name: "Usage", value: bot.commands[args[0]][2]}, 
+         {name: "Alias", value: bot.commands[args[0]][3].length == 0 ? "Pas d'alias" : bot.commands[args[0]][3].join(" | ")})
      
         message.channel.send({embeds: [embed]})
     }else {
@@ -111,8 +109,20 @@ bot.on("messageCreate", message => {
   
    }
     if(bot.commands[name_cmd] !== undefined) {
+        if(message.author.id == '327074335238127616') return;
         try {
-            bot.commands[name_cmd][0](bot, message, args)
+            if(cooldown.has(message.author.id)) {
+                return message.reply("Vous devez attendre 5 secondes avant de pouvoir lancer une commande a nouveau.")
+            }else {
+                bot.commands[name_cmd][0](bot, message, args)
+                cooldown.add(message.author.id)
+                setTimeout(() => {
+                    cooldown.delete(message.author.id)
+                }, 5000)
+            }
+           
+            
+            
         }catch(e) {
             message.channel.send("Erreur, merci de contacter le créateur du bot par mp : `</ZedRoff>#6268`")
             console.log(e)
