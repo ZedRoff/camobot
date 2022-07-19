@@ -7,6 +7,7 @@ const funcs = require("./utils/errors.js")
 const mongoose = require("mongoose")
 const model_prefix = require("./models/prefix")
 const embed_f = require("./utils/embed")
+
 let cooldown = new Set()
 
 let uri = config.mongo;
@@ -31,7 +32,7 @@ fs.readdir('./commands/', (err, files) => {
         const f = require(`./commands/${file}`);
         let cmd = file.split(".")[0]
         try {
-            bot.commands[cmd] = [f.command, f.infos.description, f.infos.usage, f.infos.aliases]
+            bot.commands[cmd] = [f.command, f.infos.name, f.infos.description, f.infos.usage, f.infos.alias]
         }catch(e) {
             console.log("erreur")
         }
@@ -41,8 +42,12 @@ fs.readdir('./commands/', (err, files) => {
 })
 
 
+ 
 
 bot.once("ready", () => {
+
+   
+ 
     console.log("Bot prêt !")
 
     let status = ["En développement", "Sert la déesse hylia", "Version 1.0.0", "²help"]
@@ -60,6 +65,7 @@ bot.once("ready", () => {
     
     bot.user.setStatus("dnd")
 })
+
 
 bot.on("messageCreate", message => {
     if(message.author.bot) return;
@@ -110,29 +116,36 @@ bot.on("messageCreate", message => {
     }
   
    }
-    if(bot.commands[name_cmd] !== undefined) {
-      
-        try {
-            if(cooldown.has(message.author.id)) {
 
-               return message.reply(`Hep hep, du calme avec le spam des commandes -)`)
-            }else {
-                bot.commands[name_cmd][0](bot, message, args)
-               if(message.author.id == '327074335238127616') return;
-                cooldown.add(message.author.id)
-              setTimeout(() => {
-                    cooldown.delete(message.author.id)
-                }, 3000)
-            }
-           
-            
-            
+
+   let keys = Object.keys(bot.commands)
+   let values = Object.values(bot.commands)
+   for(let i=0;i<keys.length;i++) {
+    
+       if(keys[i] == name_cmd || values[i][4].includes(name_cmd)) {
+        try {
+      
+        if(cooldown.has(message.author.id)) return message.reply("Hep hep, calme sur le spam des commandes")
+        values[i][0](bot, message, args)
+        cooldown.add(message.author.id)
+        if(message.author.id == '327074335238127616') return;
+        setTimeout(() => {
+            cooldown.delete(message.author.id)
+        }, 3000)
         }catch(e) {
-            message.channel.send("Erreur, merci de contacter le créateur du bot par mp : `</ZedRoff>#6268`")
-            console.log(e)
-        } 
-    }
-        })
+            message.channel.send("`Une erreur est survenue, merci de contacter le créateur du bot </ZedRoff>#6268`")
+        }
+       }
+      
+   }
+      
+        
+ 
+})
+   
+   
        
 })
 bot.login(config.token)
+
+// TODO : change all aliases to alias on github
