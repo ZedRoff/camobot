@@ -2,16 +2,18 @@ const Discord = require("discord.js")
 const funcs = require("../utils/md.js")
 const config = require("../utils/config.json")
 const embed_f = require("../utils/embed")
+
 exports.command = (bot, message,args) => {
 
-    let general = ["help", "botinfo", "macro", "avatar"]
-    let fun = ["roll", "lovecalc"]
-    let mods = ["eval", "macro"]
+    let general = ["help", "botinfo", "macro", "avatar", "date", "profile", "register", "unregister", "set", "serverinfo"]
+    let fun = ["roll", "lovecalc", "rps", "bingo", "achi", "image", "pendu", "twitter", "wanted"]
+    let utils = ["ascii", "qrcode"]
+    let mods = ["eval", "macro", "setprefix", "say", "role"]
 
     let embed = new Discord.MessageEmbed()
     .setColor("#7F56FF")
     .setTitle("Commande d'aide du bot")
-    .setDescription("Si vous souhaitez avoir plus d'informations sur une commande spécifique, merci d'utiliser la commande `info`")
+    .setDescription("Si vous souhaitez avoir plus d'informations sur une commande spécifique, merci d'utiliser la commande `info`.\n\nNombre de commandes :"+general.length+fun.length+utils.length+mods.length)
     .addFields(
         {name: "Commandes Générales", value: funcs.encadrer(general.join(" | "))},
         {name: "Commandes Fun", value: funcs.encadrer(fun.join(" | "))},
@@ -35,6 +37,6 @@ exports.command = (bot, message,args) => {
 exports.infos = {
     name: "help",
     description:"Page d'aide des commandes du bot",
-    aliases: ["h"],
+    alias: ["h"],
     usage: "[prefix]help (choix : mp)"
 }
