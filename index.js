@@ -96,8 +96,9 @@ bot.on("messageCreate", message => {
 
     if(cmd == prefix + "info") {
    
+        // TODO : have to convert this part to full indexed searching
     if(!args[0]) return funcs.errorArgs(Discord,message,prefix,"[prefix]info [nom_de_la_commande]")
-        
+
     if(bot.commands[args[0]] !== undefined) {
         let embed = new Discord.MessageEmbed()
         .setColor("#00FFFF")
