@@ -9,11 +9,11 @@ exports.command = (bot, message,args) => {
     let fun = ["roll", "lovecalc", "rps", "bingo", "achi", "image", "pendu", "twitter", "wanted"]
     let utils = ["ascii", "qrcode"]
     let mods = ["eval", "macro", "setprefix", "say", "role"]
-
+let count = general.length + fun.length + utils.length + mods.length
     let embed = new Discord.MessageEmbed()
     .setColor("#7F56FF")
     .setTitle("Commande d'aide du bot")
-    .setDescription("Si vous souhaitez avoir plus d'informations sur une commande spécifique, merci d'utiliser la commande `info`.\n\nNombre de commandes :"+general.length+fun.length+utils.length+mods.length)
+    .setDescription("Si vous souhaitez avoir plus d'informations sur une commande spécifique, merci d'utiliser la commande `info`.\n\nNombre de commandes : "+count)
     .addFields(
         {name: "Commandes Générales", value: funcs.encadrer(general.join(" | "))},
         {name: "Commandes Fun", value: funcs.encadrer(fun.join(" | "))},
