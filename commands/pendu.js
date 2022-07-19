@@ -17,8 +17,9 @@ exports.command = (bot, message, args) => {
     const collector = message.channel.createMessageCollector({ filter, time: 120000 });
 let tries = 8;
 let nb_essais = 0
-    emb.embedMaker(Discord, message, '#00FF00', "Ok, le pendu est lancé, tu as 2 minutes et 8 essais pour trouver le mot que le bot a choisit, c'est parti !")
-
+    emb.embedMaker(Discord, message, '#00FF00', "Ok, le pendu est lancé, tu as 2 minutes et 8 erreurs permises pour trouver le mot que le bot a choisit, c'est parti !")
+    emb.embedMaker(Discord, message, '#00FF00', `Le board : ${md.encadrer(cur_res.join(" | "))}\n\nErreurs permises restantes : ${md.encadrer(tries)}.\n\n++`)
+       
 collector.on('collect', m => {
     if(m.content.includes('pendu')) {
         collector.stop()
@@ -30,6 +31,7 @@ collector.on('collect', m => {
    
     if(!alpha.includes(m.content)) return emb.embedMaker(Discord, message, '#FF0000', "Seul les lettres A-Z acceptés, pas d'accents ni de chiffres.")
 	let cpt = 0
+    nb_essais++
     for(let i=0;i<chosen_word.length;i++) {
         let lowered = m.content.toLowerCase()
         if(chosen_word[i] == lowered) {
@@ -53,7 +55,7 @@ collector.on('collect', m => {
              collector.stop()
         }
     }
-    nb_essais++
+   
 });
 
 collector.on('end', collected => {
