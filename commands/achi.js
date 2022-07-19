@@ -4,7 +4,7 @@ const funcs = require("../utils/errors")
 exports.command = (bot, message, args) => {
     if(!args[0]) return funcs.errorArgs(Discord, message, '[prefix]achi [texte]')
     if(args.join(" ").length > 20) return funcs.wrongLength(Discord, message, 20)
-    message.channel.send(`https://www.minecraftskinstealer.com/achievement/a.php?i=13&h=Achievement%20unlocked&t=${args.join(" ")}`)
+    message.channel.send(`https://www.minecraftskinstealer.com/achievement/a.php?i=13&h=Achievement%20unlocked&t=${args.join(" ").replaceAll(" ", "%20")}`)
 }
 
 exports.infos = {
