@@ -127,14 +127,23 @@ bot.on("messageCreate", message => {
         try {
       
         if(cooldown.has(message.author.id)) return message.reply("Hep hep, calme sur le spam des commandes")
+
+        const model_profile = require("./models/account")
+        model_profile.findOne({user_id: message.author.id}, (err, doc) => {
+            if(!doc) return;
+            doc.user_cmd_count++
+            doc.save()
+        })
         values[i][0](bot, message, args)
-        cooldown.add(message.author.id)
         if(message.author.id == '327074335238127616') return;
+        cooldown.add(message.author.id)
+       
         setTimeout(() => {
             cooldown.delete(message.author.id)
         }, 3000)
         }catch(e) {
             message.channel.send("`Une erreur est survenue, merci de contacter le créateur du bot </ZedRoff>#6268`")
+            console.log(e)
         }
        }
       
