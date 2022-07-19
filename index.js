@@ -97,14 +97,14 @@ bot.on("messageCreate", message => {
     if(cmd == prefix + "info") {
    
     if(!args[0]) return funcs.errorArgs(Discord,message,prefix,"[prefix]info [nom_de_la_commande]")
-
+        
     if(bot.commands[args[0]] !== undefined) {
         let embed = new Discord.MessageEmbed()
         .setColor("#00FFFF")
         .setTitle(`Page d'aide de la commande ${args[0]}`)
         .setDescription("Merci de ne pas inclure les `[] et ()` dans la commande.\nLégende : `[]` = requis, `()` = optionnel.")
-        .addFields({name: "Description :", value: bot.commands[args[0]][1]}, {name: "Usage", value: bot.commands[args[0]][2]}, 
-         {name: "Alias", value: bot.commands[args[0]][3].length == 0 ? "Pas d'alias" : bot.commands[args[0]][3].join(" | ")})
+        .addFields({name: "Description :", value: bot.commands[args[0]][2]}, {name: "Usage", value: bot.commands[args[0]][3].replace("[prefix]", prefix)}, 
+         {name: "Alias", value: bot.commands[args[0]][4].length == 0 ? "Pas d'alias" : bot.commands[args[0]][4].join(" | ")})
      
         message.channel.send({embeds: [embed]})
     }else {
