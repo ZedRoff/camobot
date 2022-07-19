@@ -12,5 +12,6 @@ exports.command = async (bot, message, args) => {
 exports.infos = {
     name: "qrcode", 
     description: "Crée un qrcode avec le texte donné",
-    usage: "[prefix]qrcode [texte]"
+    usage: "[prefix]qrcode [texte]",
+    alias: []
 }
