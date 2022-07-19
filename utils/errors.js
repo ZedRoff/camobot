@@ -30,3 +30,11 @@ exports.missingPerms = (Discord, message, perm) => {
 
     message.channel.send({ embeds: [embed] })
 }
+
+exports.wrongLength = (Discord, message, max) => {
+    let embed = new Discord.MessageEmbed()
+    .setColor("#FF0000")
+    .setDescription(`Dans cette commande, le texte donné ne peut pas dépasser les ${max} caractères`)
+
+    message.channel.send({ embeds: [embed] })
+}
