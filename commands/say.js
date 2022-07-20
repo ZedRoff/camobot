@@ -4,7 +4,7 @@ const embed_f = require("../utils/embed")
 
 exports.command = (bot, message, args) => {
 if(!args[0]) return funcs.errorArgs(Discord, message, "[prefix]say [mode] [message]")
-if(!message.member.hasPermission("MANAGE_MESSAGES")) return funcs.missingPerms(Discord, message, 'MANAGE_MESSAGES')
+if(!message.member.permissions.has("MANAGE_MESSAGES")) return funcs.missingPerms(Discord, message, 'MANAGE_MESSAGES')
 let choices = ["normal", "embed"]
 let mode = args[0]
 if(!choices.includes(mode)) return embed_f.embedMaker(Discord, message, '#FF0000', "Le mode n'est pas le bon, (normal et embed supportés uniquement)")
