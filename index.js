@@ -7,7 +7,8 @@ const funcs = require("./utils/errors.js")
 const mongoose = require("mongoose")
 const model_prefix = require("./models/prefix")
 const embed_f = require("./utils/embed")
-
+const model_afk = require("./models/afk")
+const md = require("./utils/md")
 let cooldown = new Set()
 
 let uri = config.mongo;
@@ -65,7 +66,25 @@ bot.once("ready", () => {
     
     bot.user.setStatus("dnd")
 })
+// Afk system
 
+bot.on("messageCreate", message => {
+    if(message.author.bot) return;
+    if(message.channel.type == "DM") return embed_f.embedMaker(Discord, message, '#00FFFF', "Merci d'utiliser les services que ce bot propose en MP")
+    if(!message.content.includes("<@")) return;
+    model_afk.find({}, (err, doc) => {
+        doc.map(info => {
+            if(message.content.includes(info.user_id) && info.reason.length > 0) {
+                let find = bot.users.cache.get(info.user_id)
+                return message.channel.send(`L'utilisateur ${find.username} est afk pour la raison suivante : ${md.encadrer(info.reason)}`)
+            }
+           
+        })
+    })
+    console.log(message.content)
+})
+
+// End afk system
 
 bot.on("messageCreate", message => {
     if(message.author.bot) return;
