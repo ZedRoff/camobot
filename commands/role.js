@@ -60,21 +60,10 @@ exports.command = async (bot, message, args) => {
     }).catch(e => {
         return emb.embedMaker(Discord, message, '#FF0000', "Je ne peux pas ajouter de rôle a cet utilisateur, il est certainement plus haut gradé que moi")
     })
-   }/*else if(mode == "create") {
-    if(!args[1])  return errors.errorArgs(Discord, message, '[prefix]role [ID du role]')
-  
-  
-    message.guild.roles.create(args.slice(1).join(" ")).then(_m => {
-        let embed = new Discord.MessageEmbed()
-        .setColor("#00FF00")
-        .setTitle("Rôle crée avec succès")
-        .setDescription(`Le rôle ${args.slice(1).join(" ")} est désormais présent dans le serveur`)
-
-
-        message.channel.send({ embeds: [embed] })
-    })
-   }else if(mode == "delete") {
-    if(!args[1])  return errors.errorArgs(Discord, message, '[prefix]role [ID du role]')
+   }else if(mode == "create") {
+    if(!args[1])  return errors.errorArgs(Discord, message, '[prefix]role [create] [Nom du role]')
+    let role = message.guild.roles.cache.find(c => c.name == args.slice(1).join(" "))
+    if(role) return emb.embedMaker(Discord, message, '#FF0000', "Ce rôle existe déjà")
   
   
     message.guild.roles.create({name: args.slice(1).join(" "), reason: "ROLE CREATE COMMAND USED"}).then(_m => {
@@ -85,8 +74,26 @@ exports.command = async (bot, message, args) => {
 
 
         message.channel.send({ embeds: [embed] })
+    }).catch(e => {
+        return emb.embedMaker(Discord, message, '#FF0000', "Je ne peux pas crée ce rôle, surement par manque de permissions sur ce serveur")
     })
-   }*/else {
+   }else if(mode == "delete") {
+    if(!args[1])  return errors.errorArgs(Discord, message, '[prefix]role [delete] [Nom du role]')
+    let role = message.guild.roles.cache.find(c => c.name == args.slice(1).join(" "))
+    if(!role) return emb.embedMaker(Discord, message, '#FF0000', "Ce rôle n'existe pas")
+  
+ role.delete().then(_m => {
+        let embed = new Discord.MessageEmbed()
+        .setColor("#00FF00")
+        .setTitle("Rôle supprimé avec succès")
+        .setDescription(`Le rôle ${args.slice(1).join(" ")} n'est désormais plus présent dans ce serveur`)
+
+
+        message.channel.send({ embeds: [embed] })
+    }).catch(e => {
+        return emb.embedMaker(Discord, message, '#FF0000', "Je ne peux pas supprimé ce rôle, surement par manque de permissions sur ce serveur")
+    })
+   }else {
     return emb.embedMaker(Discord, message, '#FF0000', "Ce mode n'existe pas, les seuls modes supportés sont : `create|delete|add|remove`")
    }
  }
@@ -94,7 +101,7 @@ exports.infos = {
     name: "role",
     description: "Permet de manipuler des rôles assez aisement",
     alias: [],
-    usage: "[prefix]role [add|remove|create|delete] [ID de l'utilisateur ou ID du role si (create|delete)] [ID du role ou rien si (create|delete)]"
+    usage: "[prefix]role [add|remove|create|delete] [ID de l'utilisateur ou Nom du rôle si (create|delete)] [ID du rôle ou rien si (create|delete)]"
 }
 
 // TODO : end this command
