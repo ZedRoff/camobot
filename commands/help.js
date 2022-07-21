@@ -5,11 +5,17 @@ const embed_f = require("../utils/embed")
 
 exports.command = (bot, message,args) => {
 
-    let general = ["help", "botinfo", "macro", "avatar", "date", "profile", "register", "unregister", "set", "serverinfo"]
-    let fun = ["roll", "lovecalc", "rps", "bingo", "achi", "image", "pendu", "twitter", "wanted"]
-    let utils = ["ascii", "qrcode"]
+    let general = ["help", "botinfo", "macro", "avatar", "date", "profile", "register", "unregister", "set", "serverinfo", "info"]
+    let fun = ["roll", "lovecalc", "rps", "bingo", "achi", "image", "pendu", "twitter", "wanted", "memes"]
+    let utils = ["ascii", "qrcode", "afk", "calc", "choice", "rename"]
     let mods = ["eval", "macro", "setprefix", "say", "role"]
-let count = general.length + fun.length + utils.length + mods.length
+
+    const fs = require("fs")
+    let count;
+    fs.readdir("./commands/", (err, files) => {
+        count = files.length // a_template should require a -1 since it's not a command, but the command info is not in the ./commands/ dir
+    })
+
     let embed = new Discord.MessageEmbed()
     .setColor("#7F56FF")
     .setTitle("Commande d'aide du bot")
@@ -17,6 +23,7 @@ let count = general.length + fun.length + utils.length + mods.length
     .addFields(
         {name: "Commandes Générales", value: funcs.encadrer(general.join(" | "))},
         {name: "Commandes Fun", value: funcs.encadrer(fun.join(" | "))},
+        {name: "Commandes Utilitaires", value: funcs.encadrer(utils.join(" | "))},
         {name: "Commande de modération", value: funcs.encadrer(mods.join(" | "))}
 
     )
