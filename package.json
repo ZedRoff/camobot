@@ -16,8 +16,13 @@
     "discord.js": "^13.8.1",
     "figlet": "^1.5.2",
     "fs": "^0.0.1-security",
+    "mathjs": "^10.6.4",
     "moment": "^2.29.4",
     "moment-duration-format": "^2.3.2",
-    "mongoose": "^6.4.4"
+    "mongoose": "^6.4.4",
+    "qrcode": "^1.5.1",
+    "random-image-api": "^0.0.4-beta",
+    "random-puppy": "^1.1.0",
+    "translate-google": "^1.5.0"
   }
 }
