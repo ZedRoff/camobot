@@ -38,3 +38,10 @@ exports.wrongLength = (Discord, message, max) => {
 
     message.channel.send({ embeds: [embed] })
 }
+exports.resLength = (Discord, message) => {
+    let embed = new Discord.MessageEmbed()
+    .setColor("#FF0000")
+    .setDescription(`La taille de la réponse était trop longue, je ne peux pas l'afficher malheureusement`)
+
+    message.channel.send({ embeds: [embed] })
+}
