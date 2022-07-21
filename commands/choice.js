@@ -18,6 +18,6 @@ exports.command = (bot, message, args) => {
 exports.infos = {
     name: "choice",
     description: "Le bot fait le choix entre vos deux choix spécifiés",
-    usage: "[prefix]choice [choix1] | [choix2] | [choix ...]",
+    usage: "[prefix]choice [choix1] | [choix2] | [choix ...] (n'oubliez pas le |)",
     alias: []
 }
