@@ -4,7 +4,6 @@ const model_macro = require("../models/macro")
 const embed_f = require("../utils/embed")
 const md = require("../utils/md")
 exports.command = (bot, message, args) => {
-    if(!message.member.permissions.has("MANAGE_MESSAGES")) return funcs.missingPerms(Discord, message, "MANAGE_MESSAGES")
     if(!args[0]) return funcs.errorArgs(Discord, message, "[prefix]macro help (l'argument est manquant)")
     
     let cmd = args[0]
@@ -42,6 +41,8 @@ break;
 
 case "create": {
     if(!args[1]) return funcs.errorArgs(Discord, message, "Il manque le nom de la macro")
+    if(!message.member.permissions.has("MANAGE_MESSAGES")) return funcs.missingPerms(Discord, message, "MANAGE_MESSAGES")
+   
     let banned_words = ["help", "create", "delete", "liste"]
     if(banned_words.includes(args[1])) return embed_f.embedMaker(Discord, message, '#FF0000', "Bien essayé, mais non ces mots sont réservés évidemment -)")
   
@@ -71,6 +72,8 @@ case "create": {
 break;
 case "delete": {
     if(!args[1]) return funcs.errorArgs(Discord, message, "Il manque le nom de la macro")
+    if(!message.member.permissions.has("MANAGE_MESSAGES")) return funcs.missingPerms(Discord, message, "MANAGE_MESSAGES")
+   
     model_macro.findOne({identifier: "milleka", name_macro: args[1]}, (err, doc) => {
         if(!doc) return embed_f.embedMaker(Discord, message, '#FF0000', "Cette macro n'existe pas")
           // IMPORTANT : in case of backup / troll, I send them to me directly
