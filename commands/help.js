@@ -39,7 +39,7 @@ exports.command = (bot, interaction, options) => {
             return interaction.reply({embeds: [embed_f.embedMaker('#00FFFF', "Je vous ai envoyer la page d'aide en MP")]})
         }).catch(e => {
             console.log(e)
-            return interaction.reply({content: funcs.encadrer("Une erreur est survenue, merci de contacter le créateur du bot : </ZedRoff>#6268")})
+            return interaction.reply({content: funcs.encadrer("Vos mps sont fermés, je peux pas vous envoyer la page d'aide")})
         })
     
     
