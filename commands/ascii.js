@@ -2,6 +2,7 @@ const funcs = require("../utils/errors")
 const emb = require("../utils/embed")
 const Discord = require("discord.js")
 const figlet = require('figlet');
+const config = require("../utils/config.json")
 exports.command = (bot, interaction, options) => {
     
     
@@ -9,7 +10,7 @@ exports.command = (bot, interaction, options) => {
     if(texte.length > 35) return funcs.wrongLength(35)
 figlet(texte, function(err, data) {
     if (err) {
-        interaction.reply({embeds: [emb.embedMaker(Discord, message, '#FF0000', "`Une erreur est survenue, merci de contacter le créateur du bot </ZedRoff>#6268`")]})
+        interaction.reply({embeds: [emb.embedMaker(Discord, message, '#FF0000', `Une erreur est survenue, merci de contacter le créateur du bot ${config.owner}`)]})
         console.dir(err);
         return;
     }
