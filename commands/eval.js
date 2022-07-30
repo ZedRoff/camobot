@@ -15,13 +15,15 @@ exports.command = async (bot, interaction, options) => {
         }
 
         try {
-            const evaled = eval(options.getString("code"));
+            const evaled = eval(options.getString("code")).catch(e => {
+              return console.log(e)
+            });
       
             const cleaned = await clean(evaled);
       
             interaction.reply(`\`\`\`js\n${cleaned}\n\`\`\``);
           } catch (err) {
-            if(err.length > 1020) return interaction.reply({content: "check les logs"})
+            if(JSON.stringify(err).length > 1020) return interaction.reply({content: "check les logs"})
             interaction.reply({ content: `\`ERROR\` \`\`\`xl\n${err}\n\`\`\``});
             console.log(err)
           }
@@ -40,3 +42,4 @@ exports.infos = {
       type: Discord.Constants.ApplicationCommandOptionTypes.STRING
     }]
 }
+/* review the eval cmd */
