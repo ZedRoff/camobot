@@ -11,7 +11,7 @@ const model_afk = require("./models/afk");
 const md = require("./utils/md");
 let cooldown = new Set();
 
-let uri = config.mongo;
+let uri = process.env.MONGO;
 
 mongoose
   .connect(uri, {
@@ -220,4 +220,4 @@ bot.on("messageReactionRemove", function(messageReaction, user){
   
   });
 
-bot.login(config.token);
+bot.login(process.env.TOKEN);
