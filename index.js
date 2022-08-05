@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const allIntents = new Discord.Intents(32767);
-const bot = new Discord.Client({ intents: allIntents, partials: ["CHANNEL"] });
+const bot = new Discord.Client({ intents: allIntents, partials: ["CHANNEL", "REACTION", "GUILD_MEMBER", "GUILD_SCHEDULED_EVENT", "USER", "MESSAGE"] });
 const config = require("./private/config.json");
 const fs = require("fs");
 const funcs = require("./utils/errors.js");
@@ -197,5 +197,27 @@ bot.on("messageCreate", (message) => {
     });
   });
 });
+
+
+bot.on("messageReactionAdd", function(messageReaction, user){
+if(messageReaction._emoji.name == "✅") {
+  let guild = bot.guilds.cache.get(messageReaction.message.guild.id)
+  let guild_member = guild.members.cache.get(user.id);
+  let role = guild.roles.cache.get("1005242037429338122")
+  if(guild_member.roles.cache.has(role.id)) return;
+  guild_member.roles.add(role.id)
+}
+
+});
+bot.on("messageReactionRemove", function(messageReaction, user){
+  if(messageReaction._emoji.name == "✅") {
+    let guild = bot.guilds.cache.get(messageReaction.message.guild.id)
+    let guild_member = guild.members.cache.get(user.id);
+    let role = guild.roles.cache.get("1005242037429338122")
+    if(!guild_member.roles.cache.has(role.id)) return;
+    guild_member.roles.remove(role.id)
+  }
+  
+  });
 
 bot.login(config.token);

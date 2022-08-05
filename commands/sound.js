@@ -5,6 +5,13 @@ exports.command = async(bot, interaction, options) => {
 let mode = options.getString("type")
 let valeur = options.getString("valeur")
 let connection;
+
+if(interaction.member.voice.channel == null) return interaction.reply({content: "Tu dois être dans un vocal pour executer ce genre de commandes."})
+if(interaction.guild.members.cache.get(bot.user.id).voice.channelId)  {
+    if(interaction.member.voice.channel.id !== interaction.guild.members.cache.get(bot.user.id).voice.channelId) return interaction.reply({content: "On est pas dans le même vocal"})
+
+}
+    
 if(mode == "join") {
     connection = joinVoiceChannel({
         channelId: interaction.member.voice.channel.id,
@@ -19,7 +26,6 @@ if(mode == "join") {
     const payload = {
         "audio1": "https://cdn.glitch.global/ad386ccf-a028-4a1a-b88c-3c1a27fe8d24/2022-06-03%2019-21-09%20(mp3cut.net).mp3?v=1654277196950"
     }
-    //if(!interaction.guild.members.cache.get(bot.user.id).voice.channelId)  return interaction.reply({content: "Vous devez d'abord inviter le bot dans votre salon vocal"})
     
     const cn = getVoiceConnection(interaction.member.guild.id);
     if(cn) return interaction.reply({content: "Le bot joue déjà une alerte (si il a quitté de façon prématurée, merci de le reinviter ici avec la commande join"})
