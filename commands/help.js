@@ -1,6 +1,6 @@
 const Discord = require("discord.js")
 const funcs = require("../utils/md.js")
-const config = require("../private/config.json")
+const config = require("../utils/config.json")
 const embed_f = require("../utils/embed")
 
 exports.command = (bot, interaction, options) => {

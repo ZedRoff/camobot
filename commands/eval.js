@@ -1,5 +1,5 @@
 const Discord = require("discord.js")
-const config = require("../private//config.json")
+const config = require("../utils//config.json")
 exports.command = async (bot, interaction, options) => {
     if(!interaction.member.user.id == config.ownerID) return interation.reply({content: 'Bien joué, mais nan pas aujourd\'hui -)'})
     const clean = async (text) => {

@@ -2,7 +2,7 @@ const funcs = require("../utils/errors")
 const emb = require("../utils/embed")
 const Discord = require("discord.js")
 const figlet = require('figlet');
-const config = require("../private/config.json")
+const config = require("../utils/config.json")
 exports.command = (bot, interaction, options) => {
     
     

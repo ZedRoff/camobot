@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const allIntents = new Discord.Intents(32767);
 const bot = new Discord.Client({ intents: allIntents, partials: ["CHANNEL", "REACTION", "GUILD_MEMBER", "GUILD_SCHEDULED_EVENT", "USER", "MESSAGE"] });
-const config = require("./private/config.json");
+const config = require("./utils/config.json");
 const fs = require("fs");
 const funcs = require("./utils/errors.js");
 const mongoose = require("mongoose");
@@ -11,7 +11,7 @@ const model_afk = require("./models/afk");
 const md = require("./utils/md");
 let cooldown = new Set();
 
-let uri = config.mongo;
+let uri = process.env.MONGO;
 
 mongoose
   .connect(uri, {
@@ -220,4 +220,4 @@ bot.on("messageReactionRemove", function(messageReaction, user){
   
   });
 
-bot.login(config.token);
+bot.login(process.env.TOKEN);
