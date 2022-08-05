@@ -1,6 +1,6 @@
 const Discord = require("discord.js")
 const fs = require("fs")
-const config = require("../private/config.json")
+const config = require("../utils/config.json")
 const moment = require("moment")
 require("moment-duration-format")
 exports.command = async (bot, interaction, options) => {
