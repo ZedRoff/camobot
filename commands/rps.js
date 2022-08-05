@@ -29,6 +29,7 @@ function emb(u1, u2, win) {
 }
 
 let c = ["🗿 caillou", "📄 feuille", "✂️ ciseaux"]
+
 if (userchoice == "pierre" && botchoice == "feuille") {
     emb(c[0], c[1], "Bot")
 

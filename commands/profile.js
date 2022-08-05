@@ -6,7 +6,7 @@ exports.command = (bot, interaction, options) => {
 
         model.findOne({user_id: interaction.user.id}, (err, doc) => {
             if(!doc) {
-                return emb.embedMaker('#FF0000', "Vous n'avez pas de compte à votre actif, merci d'executer la commande `register` pour vous en créez un.")
+                return interaction.reply({ embeds: [emb.embedMaker('#FF0000', "Vous n'avez pas de compte à votre actif, merci d'executer la commande `register` pour vous en créez un.")]})
             }else {
                 const embed = new Discord.MessageEmbed()
                 .setColor(doc.user_color)

@@ -14,7 +14,7 @@ exports.command = (bot, interaction, options) => {
     const filter = m => m.author.id == interaction.member.user.id && bot.user.id !== m.author.id;
 
     
-    const collector = interaction.channel.createMessageCollector({ filter, time: 10000 });
+    const collector = interaction.channel.createMessageCollector({ filter, time: 120000 });
 let tries = 8;
 let nb_essais = 0
     interaction.reply({embeds: [emb.embedMaker('#00FF00', "Ok, le pendu est lancé, tu as 2 minutes et 8 erreurs permises pour trouver le mot que le bot a choisit, c'est parti !"),emb.embedMaker('#00FF00', `Le board : ${md.encadrer(cur_res.join(" | "))}\n\nErreurs permises restantes : ${md.encadrer(tries)}.\n\n++`)]})

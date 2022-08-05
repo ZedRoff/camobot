@@ -2,6 +2,7 @@ const funcs = require("../utils/errors")
 const Discord = require("discord.js")
 const emb = require("../utils/embed")
 const hastebin = require("hastebin")
+
 exports.command = (bot, interaction, options) => {
     let content = options.getString("texte")
     let extension = options.getString("extension")

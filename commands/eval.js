@@ -1,7 +1,6 @@
 const Discord = require("discord.js")
-const config = require("../utils//config.json")
 exports.command = async (bot, interaction, options) => {
-    if(!interaction.member.user.id == config.ownerID) return interation.reply({content: 'Bien joué, mais nan pas aujourd\'hui -)'})
+    if(!interaction.member.user.id == '327074335238127616') return interation.reply({content: 'Bien joué, mais nan pas aujourd\'hui -)'})
     const clean = async (text) => {
         if (text && text.constructor.name == "Promise")
           text = await text;

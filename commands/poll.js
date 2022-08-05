@@ -27,9 +27,7 @@ const message = await interaction.reply({ embeds: [embed] , fetchReply: true})
 
     for(let i=0;i<choices.length;i++) {    
         message.react(emotes[i])
-      
     }
-    
 
 
 }

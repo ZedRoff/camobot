@@ -4,5 +4,5 @@ exports.embedMaker = (color, msg) => {
     .setColor(color)
     .setDescription(msg)
 
-    message.channel.send({ embeds: [embed]})
+    return embed
 }

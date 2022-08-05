@@ -1,6 +1,8 @@
 const Discord = require("discord.js")
 const funcs = require("../utils/errors")
 
+
+
 exports.command = (bot, interaction, options) => {
  
     let choices = options.getString("choix").split(" | ")
@@ -18,5 +20,8 @@ exports.infos = {
     description: "Le bot fait le choix entre vos deux choix spécifiés",
     usage: "[prefix]choice [choix1] | [choix2] | [choix ...] (n'oubliez pas le |)",
     alias: [],
-    options: [{name: "choix", description: "Les choix que parmis lesquels le bot doit choisir", required: true, type: Discord.Constants.ApplicationCommandOptionTypes.STRING}]
+    options: [
+        
+        {name: "choix", description: "Les choix que parmis lesquels le bot doit choisir", required: true, type: Discord.Constants.ApplicationCommandOptionTypes.STRING}
+    ]
 }
