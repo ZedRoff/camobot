@@ -94,10 +94,10 @@ bot.once("ready", () => {
     else x = 0;
   }, 5000);
 });
-
+/*
 bot.on("guildCreate", guild => {
   guild.leave()
-})
+})*/
 bot.on("interactionCreate", async (interaction) => {
   if (!interaction.isCommand()) return;
   const { commandName, options } = interaction;
