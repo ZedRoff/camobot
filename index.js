@@ -181,6 +181,19 @@ bot.on("messageCreate", (message) => {
         ),
       ],
     });
+
+
+    if(message.channel.id == "873797873685397575") {
+      if(!message.content.includes("https://clips.twitch.tv/")) {
+        message.delete()
+        message.channel.send("Ceci n'est pas un clip").then(msg => {
+         setTimeout(() => msg.delete(), 5000)
+          
+        })
+      }
+    }
+
+
   if (message.content == "<@807615011719348235>")
     return embed_f.embedMaker(
       "RANDOM",
@@ -203,24 +216,53 @@ bot.on("messageCreate", (message) => {
 });
 
 
-bot.on("messageReactionAdd", function(messageReaction, user){
-if(messageReaction._emoji.name == "✅") {
-  let guild = bot.guilds.cache.get(messageReaction.message.guild.id)
-  let guild_member = guild.members.cache.get(user.id);
-  let role = guild.roles.cache.get("1005242037429338122")
-  if(guild_member.roles.cache.has(role.id)) return;
-  guild_member.roles.add(role.id)
+let payload = {
+  "⚒️": "872448269832314950",
+  "🤝": "872448467488866315",
+  "🎊": "872448022435475487",
+  "⚕️": "872683354619785257",
+  "♀️": "872169194995736656",
+  "♂️": "872169147465887775",
+  "🍩": "872168924718985237", 
+  "🎓": "872169001181130852",
+  "🍺": "872169063827243028",
+  "👱‍♂️": "872683402149625918",
+  "🚗": "987725895517212694",
+  "👓": "987725969408262194",
+  "⚔️": "934485638642794586",
+  "🔫": "1001528451620147210",
+  "1️⃣": "872449533307658310",
+  "2️⃣": "872449451023794217"
 }
+bot.on("messageReactionAdd", function(messageReaction, user){
+
+  if(messageReaction.message.channelId != "872445982976147568") return;
+ 
+  let emoji_name = messageReaction._emoji.name;
+
+
+  if(payload[emoji_name]) {
+    let guild = bot.guilds.cache.get(messageReaction.message.guild.id)
+    let guild_member = guild.members.cache.get(user.id);
+    let role = guild.roles.cache.get(payload[emoji_name])
+    if(guild_member.roles.cache.has(role.id)) return;
+  guild_member.roles.add(role.id)
+ 
+  }
 
 });
 bot.on("messageReactionRemove", function(messageReaction, user){
-  if(messageReaction._emoji.name == "✅") {
+  if(messageReaction.message.channelId != "872445982976147568") return;
+  let emoji_name = messageReaction._emoji.name
+  if(payload[emoji_name]) {
     let guild = bot.guilds.cache.get(messageReaction.message.guild.id)
     let guild_member = guild.members.cache.get(user.id);
-    let role = guild.roles.cache.get("1005242037429338122")
+    let role = guild.roles.cache.get(payload[emoji_name])
     if(!guild_member.roles.cache.has(role.id)) return;
-    guild_member.roles.remove(role.id)
+  guild_member.roles.remove(role.id)
+ 
   }
+
   
   });
 
