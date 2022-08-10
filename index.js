@@ -1,3 +1,7 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 const Discord = require("discord.js");
 const allIntents = new Discord.Intents(32767);
 const bot = new Discord.Client({ intents: allIntents, partials: ["CHANNEL", "REACTION", "GUILD_MEMBER", "GUILD_SCHEDULED_EVENT", "USER", "MESSAGE"] });
