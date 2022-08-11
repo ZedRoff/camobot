@@ -234,7 +234,7 @@ console.log("req faite")
  
     const infos = await axios.post("https://id.twitch.tv/oauth2/token", data, headers)
     let access_token = infos.data.access_token;
-
+console.log(access_token)
   
     headers = {
       "Client-Id": process.env.TWITCH_ID,
@@ -243,12 +243,15 @@ console.log("req faite")
       "Content-type": "application/x-www-form-urlencoded"
       
     }
-    let users = ["milleka__", "meoscend", "zfg1"]
+    let users = ["milleka__", "meoscend", "zfg1", "sunn_usk", "feenieh", "willx49", "zenki12", "xhaii", "vildiuss", "axoly", "oxido83", "tdc_slide"]
       
     users.forEach(async user => {
      
       const req = await axios.get(`https://api.twitch.tv/helix/streams?user_login=${user}`, {headers: headers})
+if(req.data.data.length == 0) return;
+   
       let data_fetched = req.data.data[0]
+      
       model_streams.findOne({identifier: "ab26"}, (err, doc) => {
         if(!doc) {
           const model_streams_new = new model_streams({
