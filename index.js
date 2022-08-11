@@ -234,8 +234,7 @@ console.log("req faite")
  
     const infos = await axios.post("https://id.twitch.tv/oauth2/token", data, headers)
     let access_token = infos.data.access_token;
-console.log(access_token)
-  
+
     headers = {
       "Client-Id": process.env.TWITCH_ID,
       "Authorization": `Bearer ${access_token}`,
