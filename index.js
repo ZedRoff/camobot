@@ -9,6 +9,9 @@ const config = require("./utils/config.json");
 const fs = require("fs");
 const funcs = require("./utils/errors.js");
 const mongoose = require("mongoose");
+const axios = require("axios")
+const model_streams = require("./models/stream")
+
 
 const embed_f = require("./utils/embed");
 const model_afk = require("./models/afk");
@@ -216,11 +219,10 @@ bot.on("messageCreate", (message) => {
 });
 
 
-bot.on("messageCreate", async message => {
-  const axios = require("axios")
-  if(message.content == "/twitch") {
 
- 
+setInterval(async () => {
+
+console.log("req faite")
   let data = {
       "client_id": process.env.TWITCH_ID,
       "client_secret": process.env.TWITCH_SECRET,
@@ -241,37 +243,52 @@ bot.on("messageCreate", async message => {
       "Content-type": "application/x-www-form-urlencoded"
       
     }
-    let users = ["milleka__", "meoscend"]
+    let users = ["milleka__", "meoscend", "zfg1"]
       
     users.forEach(async user => {
      
       const req = await axios.get(`https://api.twitch.tv/helix/streams?user_login=${user}`, {headers: headers})
       let data_fetched = req.data.data[0]
-
-    
-      let embed = new Discord.MessageEmbed()
-      .setColor("#6441a5")
-      .setTitle(`${data_fetched.user_name} stream du ${data_fetched.game_name} !`)
-      .setDescription(data_fetched.title)
-      .setThumbnail(data_fetched.thumbnail_url.replace("{width}", "500").replace("{height}", "500"))
-      .addFields({name: "Nombre de viewers", value: JSON.stringify(data_fetched.viewer_count)})
-      .addFields({name: "Lien vers le stream", value: `[Lien](https://twitch.tv/${data_fetched.user_login})`})
-    //  .setImage("https://static-cdn.jtvnw.net/jtv_user_pictures/7b49926a-df1b-496a-b023-14dcc5d87465-profile_image-70x70.png")
-
-    if(user == "milleka__") {
-      bot.channels.cache.get("1007378640318779512").send("<@&806570099208749126>")
-        bot.channels.cache.get("1007378640318779512").send({ embeds: [embed]})
-    } else {
-      bot.channels.cache.get("1007378654130602165").send({ embeds: [embed]})
-    }
-    
-    })
-
-
-  }
-})
-
+      model_streams.findOne({identifier: "ab26"}, (err, doc) => {
+        if(!doc) {
+          const model_streams_new = new model_streams({
+            dates: [],
+            identifier: "ab26"
+          })
+          model_streams_new.save()
+          return message.channel.send("Init réalisée, merci de re-lancer la commande.")
+        }
+        if(doc.dates.includes(data_fetched.started_at)) return;
+        let embed = new Discord.MessageEmbed()
+        .setColor("#6441a5")
+        .setTitle(`${data_fetched.user_name} stream du ${data_fetched.game_name} !`)
+        .setDescription(data_fetched.title)
+        .setThumbnail(data_fetched.thumbnail_url.replace("{width}", "500").replace("{height}", "500"))
+        .addFields({name: "Nombre de viewers", value: JSON.stringify(data_fetched.viewer_count)})
+        .addFields({name: "Lien vers le stream", value: `[Lien](https://twitch.tv/${data_fetched.user_login})`})
+      //  .setImage("https://static-cdn.jtvnw.net/jtv_user_pictures/7b49926a-df1b-496a-b023-14dcc5d87465-profile_image-70x70.png")
   
+      if(user == "milleka__") {
+      //  bot.channels.cache.get("1007378640318779512").send("<@&806570099208749126>")
+          bot.channels.cache.get("1007378640318779512").send({ embeds: [embed]})
+      } else {
+        bot.channels.cache.get("1007378654130602165").send({ embeds: [embed]})
+      }
+
+      let copy = [...doc.dates, data_fetched.started_at];
+      doc.dates = copy;
+      doc.save()
+     
+      })
+    
+     
+  
+ 
+
+  })
+}, 60000)
+ 
+
 
 let payload = {
   "⚒️": "872448269832314950",
