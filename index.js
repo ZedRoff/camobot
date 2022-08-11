@@ -216,6 +216,63 @@ bot.on("messageCreate", (message) => {
 });
 
 
+bot.on("messageCreate", async message => {
+  const axios = require("axios")
+  if(message.content == "/twitch") {
+
+ 
+  let data = {
+      "client_id": process.env.TWITCH_ID,
+      "client_secret": process.env.TWITCH_SECRET,
+      "grant_type": "client_credentials"
+    }
+    let headers = {
+      "Content-type": "application/x-www-form-urlencoded"
+    }
+ 
+    const infos = await axios.post("https://id.twitch.tv/oauth2/token", data, headers)
+    let access_token = infos.data.access_token;
+
+  
+    headers = {
+      "Client-Id": process.env.TWITCH_ID,
+      "Authorization": `Bearer ${access_token}`,
+     
+      "Content-type": "application/x-www-form-urlencoded"
+      
+    }
+    let users = ["milleka__", "meoscend"]
+      
+    users.forEach(async user => {
+     
+      const req = await axios.get(`https://api.twitch.tv/helix/streams?user_login=${user}`, {headers: headers})
+      let data_fetched = req.data.data[0]
+
+    
+      let embed = new Discord.MessageEmbed()
+      .setColor("#6441a5")
+      .setTitle(`${data_fetched.user_name} stream du ${data_fetched.game_name} !`)
+      .setDescription(data_fetched.title)
+      .setThumbnail(data_fetched.thumbnail_url.replace("{width}", "500").replace("{height}", "500"))
+      .addFields({name: "Nombre de viewers", value: JSON.stringify(data_fetched.viewer_count)})
+      .addFields({name: "Lien vers le stream", value: `[Lien](https://twitch.tv/${data_fetched.user_login})`})
+    //  .setImage("https://static-cdn.jtvnw.net/jtv_user_pictures/7b49926a-df1b-496a-b023-14dcc5d87465-profile_image-70x70.png")
+
+    if(user == "milleka__") {
+      bot.channels.cache.get("1007378640318779512").send("<@&806570099208749126>")
+        bot.channels.cache.get("1007378640318779512").send({ embeds: [embed]})
+    } else {
+      bot.channels.cache.get("1007378654130602165").send({ embeds: [embed]})
+    }
+    
+    })
+
+
+  }
+})
+
+  
+
 let payload = {
   "⚒️": "872448269832314950",
   "🤝": "872448467488866315",
