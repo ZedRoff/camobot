@@ -293,29 +293,29 @@ if(req.data.data.length == 0) return;
 // YOUTUBE NOTIFICATION SYSTEM
 
 
-
-
-// END YOUTUBE NOTIFICATION
-
-
-}, 60000)
 let Parser = require('rss-parser');
 let parser = new Parser();
-bot.on("message", async message => {
-  if(message.content == "/yt"){
-
-  
-  let feed = await parser.parseURL('https://www.youtube.com/feeds/videos.xml?channel_id=UCPGfjTSbx8BZYWUcedSkNIw');
-  let parsed = feed.items[0]
+  model_youtube.findOne({identifier: "ab26"}, (err, doc) => {
+    let feed = await parser.parseURL('https://www.youtube.com/feeds/videos.xml?channel_id=UCPGfjTSbx8BZYWUcedSkNIw');
+    let parsed = feed.items[0]
+   
+ if(doc.last_video == parsed.link) return;
   let embed = new Discord.MessageEmbed()
   .setColor("#FF0000")
   .setTitle(`Nouvelle vidéo de ${parsed.author}`)
   .addFields({name: "Titre", value: parsed.title})
   .addFields({name: "Voir la vidéo", value: `[Lien](${parsed.link})`})
- message.channel.send({embeds: [embed]});
-}
+  bot.channels.cache.get("1007766213742559323").send({embeds: [embed]});
+doc.last_video = parsed.link 
+doc.save()
+
+
 })
 
+// END YOUTUBE NOTIFICATION
+
+
+}, 60000)
 
    
 

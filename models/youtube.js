@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 const model = new mongoose.Schema({
-    last_stream: String,
+    last_video: String,
     identifier: String
 })
 module.exports = mongoose.model("Youtube_milleka", model)
