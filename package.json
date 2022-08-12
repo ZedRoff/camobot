@@ -32,6 +32,7 @@
     "qrcode": "^1.5.1",
     "random-image-api": "^0.0.4-beta",
     "random-puppy": "^1.1.0",
+    "rss-parser": "^3.12.0",
     "translate-google": "^1.5.0"
   }
 }

@@ -222,7 +222,8 @@ bot.on("messageCreate", (message) => {
 
 setInterval(async () => {
 
-console.log("req faite")
+// TWITCH NOTIFICATION SYSTEM
+
   let data = {
       "client_id": process.env.TWITCH_ID,
       "client_secret": process.env.TWITCH_SECRET,
@@ -258,7 +259,7 @@ if(req.data.data.length == 0) return;
             identifier: "ab26"
           })
           model_streams_new.save()
-          return message.channel.send("Init réalisée, merci de re-lancer la commande.")
+          //return message.channel.send("Init réalisée, merci de re-lancer la commande.")
         }
         if(doc.dates.includes(data_fetched.started_at)) return;
         let embed = new Discord.MessageEmbed()
@@ -283,14 +284,40 @@ if(req.data.data.length == 0) return;
      
       })
     
-     
   
- 
 
   })
-}, 60000)
- 
 
+// END TWITCH NOTIFICATION SYSTEM
+
+// YOUTUBE NOTIFICATION SYSTEM
+
+
+
+
+// END YOUTUBE NOTIFICATION
+
+
+}, 60000)
+let Parser = require('rss-parser');
+let parser = new Parser();
+bot.on("message", async message => {
+  if(message.content == "/yt"){
+
+  
+  let feed = await parser.parseURL('https://www.youtube.com/feeds/videos.xml?channel_id=UCPGfjTSbx8BZYWUcedSkNIw');
+  let parsed = feed.items[0]
+  let embed = new Discord.MessageEmbed()
+  .setColor("#FF0000")
+  .setTitle(`Nouvelle vidéo de ${parsed.author}`)
+  .addFields({name: "Titre", value: parsed.title})
+  .addFields({name: "Voir la vidéo", value: `[Lien](${parsed.link})`})
+ message.channel.send({embeds: [embed]});
+}
+})
+
+
+   
 
 let payload = {
   "⚒️": "872448269832314950",
