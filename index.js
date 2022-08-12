@@ -301,10 +301,9 @@ let parser = new Parser();
 
     let feed = await parser.parseURL('https://www.youtube.com/feeds/videos.xml?channel_id=UCPGfjTSbx8BZYWUcedSkNIw');
     let parsed = feed.items[0]
-   console.log(doc.last_video, parsed.link)
+
  if(doc.last_video == parsed.link) return;
- console.log(feed)
-    
+
   let embed = new Discord.MessageEmbed()
   .setColor("#FF0000")
   .setTitle(`Nouvelle vidéo de ${parsed.author}`)
@@ -341,6 +340,29 @@ let payload = {
   "1️⃣": "872449533307658310",
   "2️⃣": "872449451023794217"
 }
+bot.on('voiceStateUpdate', (oldState, newState) => {
+ let hubCate = "806594621434101843"
+ let hubChan = "1007789686053413004"
+  if (oldState.member.user.bot) return;
+
+  if (oldState.channel === null && newState.channel !== null) {
+    if(newState.channel.parentId !== hubCate) return;
+   if(newState.channelId !== hubChan) return;
+    let category = newState.guild.channels.cache.get(hubCate)
+  newState.guild.channels.create(`Channel de : ${oldState.member.user.username}`, {type: "GUILD_VOICE"}).then(async channel => {
+    await channel.setParent(category)
+await newState.member.voice.setChannel(channel)
+  })
+   
+
+
+  }else {
+    if(oldState.channel.parentId !== hubCate) return;
+    if(oldState.channelId == hubChan) return;
+    oldState.channel.delete()
+
+  }
+})
 bot.on("messageReactionAdd", function(messageReaction, user){
 
   if(messageReaction.message.channelId != "872445982976147568") return;
