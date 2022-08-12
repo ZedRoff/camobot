@@ -295,7 +295,7 @@ if(req.data.data.length == 0) return;
 
 let Parser = require('rss-parser');
 let parser = new Parser();
-  model_youtube.findOne({identifier: "ab26"}, (err, doc) => {
+  model_youtube.findOne({identifier: "ab26"}, async(err, doc) => {
     let feed = await parser.parseURL('https://www.youtube.com/feeds/videos.xml?channel_id=UCPGfjTSbx8BZYWUcedSkNIw');
     let parsed = feed.items[0]
    
