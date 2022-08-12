@@ -12,8 +12,10 @@ const mongoose = require("mongoose");
 const axios = require("axios")
 const model_streams = require("./models/stream")
 
+const Parser = require('rss-parser');
 
 const embed_f = require("./utils/embed");
+const model_youtube = require("./models/youtube")
 const model_afk = require("./models/afk");
 const md = require("./utils/md");
 let cooldown = new Set();
@@ -290,16 +292,19 @@ if(req.data.data.length == 0) return;
 
 // END TWITCH NOTIFICATION SYSTEM
 
+
 // YOUTUBE NOTIFICATION SYSTEM
 
 
-let Parser = require('rss-parser');
 let parser = new Parser();
   model_youtube.findOne({identifier: "ab26"}, async(err, doc) => {
+
     let feed = await parser.parseURL('https://www.youtube.com/feeds/videos.xml?channel_id=UCPGfjTSbx8BZYWUcedSkNIw');
     let parsed = feed.items[0]
-   
+   console.log(doc.last_video, parsed.link)
  if(doc.last_video == parsed.link) return;
+ console.log(feed)
+    
   let embed = new Discord.MessageEmbed()
   .setColor("#FF0000")
   .setTitle(`Nouvelle vidéo de ${parsed.author}`)
@@ -308,7 +313,6 @@ let parser = new Parser();
   bot.channels.cache.get("1007766213742559323").send({embeds: [embed]});
 doc.last_video = parsed.link 
 doc.save()
-
 
 })
 
