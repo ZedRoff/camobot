@@ -38,21 +38,7 @@ model.findOne({user_id: interaction.member.user.id}, (err, doc) => {
         }
         break;
         
-        case "couleur": {
-            
-            if(value[0] !== "#" || value.length !== 7) return interaction.reply({embeds: [emb.embedMaker('#FF0000', "Le format de la couleur doit être : #ABCDEF (le hex factorisé n'est pas supporté pour l'instant)")]}) // TODO : check for #fff case here.
-            
-            doc.user_color = value
-            doc.save().then(_m => {
-                return interaction.reply({embeds: [emb.embedMaker('#00FFFF', `Ta couleur a été changée sur ${value}`)]})
-            })
-         
-        }
-        break;
-        case "fond": {
-            return interaction.reply("En cours de développement")
-        }
-        break;
+    
         case "description": {
             doc.user_description = value
             doc.save().then(_m => {
@@ -61,7 +47,7 @@ model.findOne({user_id: interaction.member.user.id}, (err, doc) => {
         }
         break;
         default: {
-            return interaction.reply({embeds: [emb.embedMaker('#FF0000', "Ce type n'existe pas, les seuls types acceptés sont : `anniversaire | couleur | fond | description`")]})
+            return interaction.reply({embeds: [emb.embedMaker('#FF0000', "Ce type n'existe pas, les seuls types acceptés sont : `anniversaire | description`")]})
         }
     }
 })

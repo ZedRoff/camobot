@@ -9,7 +9,9 @@ const model = new mongoose.Schema({
     user_description: String,
     user_bg: String,
     user_color: String,
-    user_birth_date: String
+    user_birth_date: String,
+    user_items: Array,
+    user_money: Number
 
 })
 
