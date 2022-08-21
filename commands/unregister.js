@@ -7,7 +7,7 @@ exports.command = (bot, interaction, options) => {
  
     model.deleteOne({user_id: interaction.member.user.id}, (err, doc) => {
         if(doc.deletedCount !== 1) {
-            return interaction.reply({embeds: [emb.embedMaker(Discord, message, '#FF0000', "Tu n'as pas de compte")]})
+            return interaction.reply({embeds: [emb.embedMaker('#FF0000', "Tu n'as pas de compte")]})
         }else {
           
            

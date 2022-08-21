@@ -24,11 +24,13 @@ exports.command = (bot, interaction, options) => {
                 },
                 {
                     name: "Badges", value: doc.user_badge.join(" | ")
+                },{
+                    name: "Argent", value: JSON.stringify(doc.user_money) + " " + "🍫"
                 },
                 {
-                    name: "Nombre de commandes utilisés", value: JSON.stringify(doc.user_cmd_count)
+                    name: "Items", value: doc.user_items.length == 0 ? "Pas d'items" : doc.user_items.join(" | ")
                 })
-                .setFooter({text: "Vous pouvez changez toutes ces stats à l'aide de la commande `set`"})
+                .setFooter({text: "Vous pouvez changez votre date d'anniversaire et votre présentation à l'aide de la commande `set`"})
 interaction.reply({ embeds: [embed]})
 
             }
