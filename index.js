@@ -157,10 +157,7 @@ bot.on("interactionCreate", async (interaction) => {
         try {
         
 
-          f.command(bot, interaction, options).catch(e => {
-          interaction.reply({ content:  `Une erreur est survenue, merci de contacter le créateur du bot ${config.owner}`});
-          console.log(e)
-          })
+          f.command(bot, interaction, options)
         } catch (e) {
           interaction.reply({ content:  `Une erreur est survenue, merci de contacter le créateur du bot ${config.owner}`});
           console.log(e);

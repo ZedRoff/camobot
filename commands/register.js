@@ -18,7 +18,9 @@ exports.command = (bot, interaction, options) => {
                 user_description: "Aucune description",
                 user_bg: 'https://cdn.glitch.global/5f373f55-ab8d-4671-80ea-c21805f80314/concours-discord-cartes-voeux-fortnite-france-6.png?v=1658253669032',
                 user_color: 'RANDOM',
-                user_birth_date: "Pas de date d'anniversaire de set" 
+                user_birth_date: "Pas de date d'anniversaire de set" ,
+                user_items: [],
+                user_money: 0
             })
             new_model.save().then(msg => {
                 const embed = new Discord.MessageEmbed()
