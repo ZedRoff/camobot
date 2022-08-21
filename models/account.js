@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
 
 const model = new mongoose.Schema({
+    guild_id: String,
     user_id: String,
     user_name: String,
     user_rep: Number,
@@ -11,7 +12,8 @@ const model = new mongoose.Schema({
     user_color: String,
     user_birth_date: String,
     user_items: Array,
-    user_money: Number
+    user_money: Number,
+    user_xp: Number
 
 })
 

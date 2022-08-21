@@ -18,6 +18,7 @@ const embed_f = require("./utils/embed");
 const model_youtube = require("./models/youtube")
 const model_afk = require("./models/afk");
 const md = require("./utils/md");
+const model_account = require("./models/account")
 let cooldown = new Set();
 
 let uri = process.env.MONGO;
@@ -392,4 +393,20 @@ bot.on("messageReactionRemove", function(messageReaction, user){
   
   });
 
+
+const cd_eco = new Set()
+  bot.on("messageCreate", message => {
+    model_account.findOne({guild_id: message.guild.id, user_id: message.author.id}, (err, doc) => {
+      if(!doc) return;
+    
+      if(cd_eco.has(message.author.id)) return;
+      cd_eco.add(message.author.id)
+      doc.user_xp += Math.round(Math.random() * 50)
+      doc.save()
+      if(doc.user_xp >= 50) return message.channel.send("GG ! Tu as passé le niveau 1")
+      setTimeout(() => {
+        cd_eco.delete(message.author.id)
+      }, 120000 * Math.random())
+    })
+  })
 bot.login(process.env.TOKEN);

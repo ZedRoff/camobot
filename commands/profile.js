@@ -26,6 +26,8 @@ exports.command = (bot, interaction, options) => {
                     name: "Badges", value: doc.user_badge.join(" | ")
                 },{
                     name: "Argent", value: JSON.stringify(doc.user_money) + " " + "🍫"
+                },{
+                    name: "XP", value: JSON.stringify(doc.user_xp)
                 },
                 {
                     name: "Items", value: doc.user_items.length == 0 ? "Pas d'items" : doc.user_items.join(" | ")

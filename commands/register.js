@@ -10,6 +10,7 @@ exports.command = (bot, interaction, options) => {
             interaction.reply({embeds: [emb.embedMaker('#FF0000', "Tu es déjà enregistré dans la base de donnée, execute la commande `profile` pour examiner ton profile.")]})
         }else {
             const new_model = new model({
+                guild_id: interaction.member.guild.id,
                 user_id: interaction.member.user.id,
                 user_name: interaction.member.user.username,
                 user_rep: 0,
@@ -20,7 +21,8 @@ exports.command = (bot, interaction, options) => {
                 user_color: 'RANDOM',
                 user_birth_date: "Pas de date d'anniversaire de set" ,
                 user_items: [],
-                user_money: 0
+                user_money: 0,
+                user_xp: 0
             })
             new_model.save().then(msg => {
                 const embed = new Discord.MessageEmbed()
