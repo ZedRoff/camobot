@@ -22,7 +22,9 @@ exports.command = (bot, interaction, options) => {
                 user_birth_date: "Pas de date d'anniversaire de set" ,
                 user_items: [],
                 user_money: 0,
-                user_xp: 0
+                user_xp: 0,
+                user_next_level: 100,
+                user_level: 0
             })
             new_model.save().then(msg => {
                 const embed = new Discord.MessageEmbed()

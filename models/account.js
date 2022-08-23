@@ -13,7 +13,9 @@ const model = new mongoose.Schema({
     user_birth_date: String,
     user_items: Array,
     user_money: Number,
-    user_xp: Number
+    user_xp: Number,
+    user_next_level: Number,
+    user_level: Number
 
 })
 

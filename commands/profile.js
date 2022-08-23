@@ -30,6 +30,12 @@ exports.command = (bot, interaction, options) => {
                     name: "XP", value: JSON.stringify(doc.user_xp)
                 },
                 {
+                    name: "XP restant pour level up", value: JSON.stringify(doc.user_next_level - doc.user_xp)
+                },
+                {
+                    name: "Niveau", value: JSON.stringify(doc.user_level)
+                },
+                {
                     name: "Items", value: doc.user_items.length == 0 ? "Pas d'items" : doc.user_items.join(" | ")
                 })
                 .setFooter({text: "Vous pouvez changez votre date d'anniversaire et votre présentation à l'aide de la commande `set`"})

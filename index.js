@@ -393,7 +393,7 @@ bot.on("messageReactionRemove", function(messageReaction, user){
   
   });
 
-/*
+
 const cd_eco = new Set()
   bot.on("messageCreate", message => {
     model_account.findOne({guild_id: message.guild.id, user_id: message.author.id}, (err, doc) => {
@@ -403,11 +403,17 @@ const cd_eco = new Set()
       cd_eco.add(message.author.id)
       doc.user_xp += Math.round(Math.random() * 50)
       doc.save()
-      if(doc.user_xp >= 50) return message.channel.send("GG ! Tu as passé le niveau 1")
+      if(doc.user_xp >= doc.user_next_level) {
+        doc.user_next_level += 5 * ((doc.user_level ** 2) + 50 * doc.user_level + 100) 
+        doc.level++
+        doc.save()
+        return message.reply(`GG ! Tu as passé le niveau ${doc.level}`)
+       
+      }
       setTimeout(() => {
         cd_eco.delete(message.author.id)
       }, 120000 * Math.random())
     })
   })
-  */
+  
 bot.login(process.env.TOKEN);
