@@ -393,7 +393,7 @@ bot.on("messageReactionRemove", function(messageReaction, user){
   
   });
 
-
+/*
 const cd_eco = new Set()
   bot.on("messageCreate", message => {
     model_account.findOne({guild_id: message.guild.id, user_id: message.author.id}, (err, doc) => {
@@ -412,8 +412,9 @@ const cd_eco = new Set()
       }
       setTimeout(() => {
         cd_eco.delete(message.author.id)
-      }, 120000 * Math.random())
+      }, 60000 * Math.random())
     })
   })
+  */
   
 bot.login(process.env.TOKEN);
